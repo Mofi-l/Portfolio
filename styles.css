@@ -141,7 +141,7 @@ html[data-theme="dark"] .hero {
   left: 10%;
   width: 300px;
   height: 300px;
-  background: #ff6ec4;
+  background: #1f6feb;
 }
 
 .gradient-circle-2 {
@@ -175,7 +175,7 @@ html[data-theme="dark"] .hero {
 }
 
 .highlight {
-  color: #ff6ec4;
+  color: #1f6feb;
 }
 
 .role {
@@ -210,7 +210,7 @@ html[data-theme="dark"] .hero {
 }
 
 .btn.primary {
-  background: #ff6ec4;
+  background: #1f6feb;
   color: #fff;
 }
 
@@ -219,12 +219,12 @@ html[data-theme="dark"] .hero {
 }
 
 .btn.secondary {
-  border: 2px solid #ff6ec4;
-  color: #ff6ec4;
+  border: 2px solid #1f6feb;
+  color: #1f6feb;
 }
 
 .btn.secondary:hover {
-  background: #ff6ec4;
+  background: #1f6feb;
   color: #fff;
 }
 
