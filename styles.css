@@ -545,14 +545,12 @@ html[data-theme="dark"] .hero {
 .stat-number {
   font-size: 3rem;
   font-weight: 800;
-  background: linear-gradient(135deg, 
-    var(--highlight-color), 
-    #7873f5
-  );
+  background: linear-gradient(135deg, #1f6feb, #7873f5);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  margin-bottom: 0.75rem;
+  margin-bottom: 1rem;
+  position: relative;
   display: inline-block;
 }
 
