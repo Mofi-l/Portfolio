@@ -530,23 +530,32 @@
     }
   }
 
-    // Scroll to Top
-    const scrollBtn = document.getElementById('scrollToTop');
-    window.addEventListener('scroll', () => {
-      scrollBtn.style.display = window.scrollY > 300 ? 'block' : 'none';
-    });
-    scrollBtn.addEventListener('click', () => {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
+// Scroll to Top Functionality
+const scrollToTopButton = document.getElementById("scrollToTop");
 
-    // Nav Active Tab
-    const navLinks = document.querySelectorAll('.nav-link');
-    navLinks.forEach(link => {
-      link.addEventListener('click', () => {
-        navLinks.forEach(el => el.classList.remove('active'));
-        link.classList.add('active');
-      });
-    });
+window.addEventListener("scroll", () => {
+  if (window.pageYOffset > 300) {
+    scrollToTopButton.classList.add("show");
+  } else {
+    scrollToTopButton.classList.remove("show");
+  }
+});
+
+scrollToTopButton.addEventListener("click", () => {
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+});
+
+// Hamburger Menu Functionality (if needed)
+const hamburgerMenu = document.querySelector('.hamburger-menu');
+const navLinks = document.querySelector('.nav-links');
+
+hamburgerMenu.addEventListener('click', () => {
+  navLinks.classList.toggle('show');
+});
+
 //////////////////////////
 // About section animation
 // Function to animate counting
