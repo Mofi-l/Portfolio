@@ -86,7 +86,7 @@ ul {
 .nav-link.active {
   color: var(--link-color);
 }
-
+/*--------------------------------------------------*/
 /* THEME TOGGLE */
 .theme-toggle {
   background: none;
@@ -96,149 +96,176 @@ ul {
   cursor: pointer;
 }
 /*--------------------------------------------------*/
-/* HERO SECTION */
+/* Hero Section */
 .hero {
   position: relative;
-  background-color: var(--bg-color);
-  overflow: hidden;
+  min-height: 100vh;
+  padding: 4rem 2rem;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 5rem 2rem 3rem;
-  min-height: 90vh;
-  flex-wrap: wrap;
-  gap: 2rem;
-  z-index: 1;
+  justify-content: center;
+  overflow: hidden;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  transition: background-image 0.5s ease;
+}
+
+/* Light theme background image */
+html[data-theme="light"] .hero {
+  background-image: url('cloudBg.png');
+}
+
+/* Dark theme background image */
+html[data-theme="dark"] .hero {
+  background-image: url('cloudDark.png');
 }
 
 .hero-background {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  inset: 0;
   z-index: 0;
-  overflow: hidden;
 }
 
 .gradient-circle,
 .gradient-circle-2 {
   position: absolute;
-  width: 400px;
-  height: 400px;
   border-radius: 50%;
-  background: radial-gradient(circle, var(--highlight-color) 0%, transparent 70%);
-  animation: float 8s infinite ease-in-out;
-  z-index: 0;
+  filter: blur(80px);
+  opacity: 0.4;
+  pointer-events: none;
 }
 
 .gradient-circle {
-  top: -100px;
-  left: -100px;
+  top: 10%;
+  left: 10%;
+  width: 300px;
+  height: 300px;
+  background: #ff6ec4;
 }
 
 .gradient-circle-2 {
-  bottom: -100px;
-  right: -100px;
-  animation-delay: 2s;
-}
-
-@keyframes float {
-  0%, 100% {
-    transform: translateY(0) scale(1);
-  }
-  50% {
-    transform: translateY(-20px) scale(1.05);
-  }
+  bottom: 10%;
+  right: 10%;
+  width: 300px;
+  height: 300px;
+  background: #7873f5;
 }
 
 .hero-content {
   position: relative;
-  z-index: 1;
   display: flex;
-  flex: 1;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  width: 100%;
+  flex-direction: column;
+  gap: 2rem;
   max-width: 1200px;
-  margin: auto;
-  gap: 3rem;
+  z-index: 1;
+  text-align: center;
+  color: var(--text-primary, #fff);
 }
 
-.hero-text-content {
-  flex: 1;
-  min-width: 300px;
-}
-
-.greeting {
+.hero-text-content .greeting {
   font-size: 1.2rem;
-  color: var(--link-color);
   margin-bottom: 0.5rem;
+  color: var(--text-secondary, #ccc);
 }
 
 .main-title {
-  font-size: 2.8rem;
+  font-size: 3rem;
   font-weight: 700;
+}
+
+.highlight {
+  color: #ff6ec4;
 }
 
 .role {
   font-size: 1.5rem;
-  color: var(--text-color);
-  margin: 0.7rem 0;
+  font-weight: 500;
+  margin-top: 0.5rem;
 }
 
 .description {
   font-size: 1rem;
-  margin-bottom: 2rem;
+  margin: 1rem 0;
+  line-height: 1.6;
   max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .cta-buttons {
   display: flex;
-  flex-wrap: wrap;
   gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.btn {
+  padding: 0.75rem 1.5rem;
+  border-radius: 25px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.btn.primary {
+  background: #ff6ec4;
+  color: #fff;
+}
+
+.btn.primary:hover {
+  background: #e05aaf;
+}
+
+.btn.secondary {
+  border: 2px solid #ff6ec4;
+  color: #ff6ec4;
+}
+
+.btn.secondary:hover {
+  background: #ff6ec4;
+  color: #fff;
 }
 
 .hero-image {
-  flex: 1;
+  margin-top: 2rem;
   display: flex;
   justify-content: center;
-  align-items: center;
-  min-width: 300px;
 }
 
 .image-wrapper {
-  width: 280px;
-  height: 280px;
   border-radius: 50%;
   overflow: hidden;
-  border: 5px solid var(--highlight-color);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  width: 180px;
+  height: 180px;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
 }
 
 .profile-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center;
-  border-radius: 50%;
 }
 
-/* Responsive */
-@media (max-width: 768px) {
-  .hero {
-    flex-direction: column;
-    text-align: center;
-    padding: 4rem 1.5rem;
-  }
-
+/* Responsive adjustments */
+@media (min-width: 768px) {
   .hero-content {
-    flex-direction: column;
-    gap: 2rem;
+    flex-direction: row;
+    text-align: left;
+    align-items: center;
+    justify-content: space-between;
   }
 
-  .cta-buttons {
-    justify-content: center;
+  .hero-text-content {
+    flex: 1;
+  }
+
+  .hero-image {
+    flex: 1;
+    margin-top: 0;
+    display: flex;
+    justify-content: flex-end;
   }
 }
 /*--------------------------------------------------*/

@@ -30,31 +30,27 @@
   <main>
 <!-- Hero Section -->
 <section id="home" class="hero">
-    <div class="hero-background">
-        <div class="gradient-circle"></div>
-        <div class="gradient-circle-2"></div>
+  <div class="hero-content">
+    <div class="hero-text-content">
+      <div class="greeting">Hi, Welcome to my portfolio.</div>
+      <h1 class="main-title">I'm, <span class="highlight">Abdul Mofil</span></h1>
+      <h2 class="role">Senior Process Specialist - Microsites</h2>
+      <p class="description">
+        Transforming Selling Partner Support business processes with 6 years of Amazon expertise.
+      </p>
+      <div class="cta-buttons">
+        <a href="#contact" class="btn primary">Get In Touch<span>→</span></a>
+        <a href="Resume.pdf" class="btn secondary" download>
+          <i class="fas fa-download"></i> Resume
+        </a>
+      </div>
     </div>
-    <div class="hero-content">
-        <div class="hero-text-content">
-            <div class="greeting">Hi, Welcome to my portfolio.</div>
-            <h1 class="main-title">I'm, <span class="highlight">Abdul Mofil</span></h1>
-            <h2 class="role">Senior Process Specialist - Microsites</h2>
-            <p class="description">
-                Transforming Selling Partner Support business processes with 6 years of Amazon expertise.
-            </p>
-            <div class="cta-buttons">
-                <a href="#contact" class="btn primary">Get In Touch<span>→</span></a>
-                <a href="Resume.pdf" class="btn secondary" download>
-                    <i class="fas fa-download"></i> Resume
-                </a>
-            </div>
-        </div>
-        <div class="hero-image">
-            <div class="image-wrapper">
-                <img src="profile-image.jpg" alt="Profile" class="profile-img">
-            </div>
-        </div>
+    <div class="hero-image">
+      <div class="image-wrapper">
+        <img src="profile-image.jpg" alt="Profile" class="profile-img" />
+      </div>
     </div>
+  </div>
 </section>
 
     <!-- About Section -->
@@ -416,15 +412,42 @@
     AOS.init();
 
     // Theme Toggle
-    const toggleBtn = document.getElementById('theme-toggle');
-    const themeIcon = document.getElementById('theme-icon');
-    toggleBtn.addEventListener('click', () => {
-      const html = document.documentElement;
-      const isDark = html.getAttribute('data-theme') === 'dark';
-      html.setAttribute('data-theme', isDark ? 'light' : 'dark');
-      themeIcon.classList.toggle('fa-sun', isDark);
-      themeIcon.classList.toggle('fa-moon', !isDark);
-    });
+  const themeToggle = document.getElementById("theme-toggle");
+  const themeIcon = document.getElementById("theme-icon");
+  const htmlElement = document.documentElement;
+  const heroSection = document.querySelector(".hero");
+
+  // Check and apply saved theme from localStorage (if any)
+  const savedTheme = localStorage.getItem("theme");
+  if (savedTheme) {
+    htmlElement.setAttribute("data-theme", savedTheme);
+    updateThemeIcon(savedTheme);
+    updateHeroBackground(savedTheme);
+  }
+
+  themeToggle.addEventListener("click", () => {
+    const currentTheme = htmlElement.getAttribute("data-theme");
+    const newTheme = currentTheme === "dark" ? "light" : "dark";
+    htmlElement.setAttribute("data-theme", newTheme);
+    localStorage.setItem("theme", newTheme); // Save theme
+
+    updateThemeIcon(newTheme);
+    updateHeroBackground(newTheme);
+  });
+
+  function updateThemeIcon(theme) {
+    themeIcon.className = theme === "dark" ? "fas fa-moon" : "fas fa-sun";
+  }
+
+  function updateHeroBackground(theme) {
+    if (theme === "dark") {
+      heroSection.classList.add("dark-bg");
+      heroSection.classList.remove("light-bg");
+    } else {
+      heroSection.classList.add("light-bg");
+      heroSection.classList.remove("dark-bg");
+    }
+  }
 
     // Scroll to Top
     const scrollBtn = document.getElementById('scrollToTop');
