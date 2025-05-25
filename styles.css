@@ -97,154 +97,238 @@ ul {
 }
 /*--------------------------------------------------*/
 /* Hero Section Base Styles */
-/* Hero Section */
 .hero {
-  min-height: 100dvh; /* Using dynamic viewport height */
-  padding: clamp(4rem, 8vw, 6rem) 2rem;
-  display: grid;
-  place-items: center;
-  background: var(--surface-dark, #0d1117);
+  min-height: 100vh;
+  padding: 6rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #0d1117;
   position: relative;
-  isolation: isolate; /* Modern way to create stacking context */
+  overflow: hidden;
 }
 
-/* Modern Gradient Effects */
+/* Gradient Background Effects */
 .hero::before,
 .hero::after {
   content: '';
   position: absolute;
-  inset: 0;
-  width: min(50vw, 500px);
-  height: min(50vw, 500px);
+  width: 500px;
+  height: 500px;
   border-radius: 50%;
   filter: blur(120px);
   opacity: 0.15;
-  will-change: transform; /* Performance optimization */
+  z-index: 0;
 }
 
 .hero::before {
-  background: linear-gradient(135deg, 
-    hsl(213, 86%, 56%), 
-    hsl(211, 100%, 45%)
-  );
-  top: -10%;
-  left: -10%;
-  animation: float 10s ease-in-out infinite;
+  background: linear-gradient(45deg, #2d8cf0, #0073e6);
+  top: -100px;
+  left: -100px;
+  animation: float 8s infinite ease-in-out;
 }
 
 .hero::after {
-  background: linear-gradient(135deg, 
-    hsl(242, 89%, 71%), 
-    hsl(330, 81%, 60%)
-  );
-  bottom: -10%;
-  right: -10%;
-  animation: float 10s ease-in-out infinite reverse;
+  background: linear-gradient(45deg, #7873f5, #ec4899);
+  bottom: -100px;
+  right: -100px;
+  animation: float 8s infinite ease-in-out reverse;
 }
 
-/* Hero Content */
+/* Hero Content Container */
 .hero-content {
-  width: min(100%, 1200px);
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: clamp(2rem, 4vw, 4rem);
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4rem;
   z-index: 1;
+  position: relative;
 }
 
-/* Text Content */
+/* Left Side Text Content */
 .hero-text-content {
-  display: flex;
-  flex-direction: column;
-  gap: clamp(1rem, 2vw, 1.5rem);
+  flex: 1;
 }
 
 .greeting {
-  font-size: clamp(1rem, 1.5vw, 1.25rem);
-  color: var(--accent-blue, #2d8cf0);
-  animation: fadeSlideUp 0.6s ease forwards;
+  font-size: 1.25rem;
+  color: #2d8cf0;
+  margin-bottom: 1rem;
+  opacity: 0;
+  animation: slideUp 0.6s ease forwards;
 }
 
 .main-title {
-  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  font-size: 4.5rem;
   font-weight: 800;
   line-height: 1.1;
-  color: var(--text-primary, #e6edf3);
-  animation: fadeSlideUp 0.6s ease forwards 0.2s;
+  margin: 0;
+  color: #e6edf3;
+  opacity: 0;
+  animation: slideUp 0.6s ease forwards 0.2s;
 }
 
 .highlight {
-  color: var(--accent-blue, #2d8cf0);
+  color: #2d8cf0;
   position: relative;
+  display: inline-block;
 }
 
 .highlight::after {
   content: '';
   position: absolute;
-  inset-inline: 0;
   bottom: 0;
+  left: 0;
+  width: 100%;
   height: 4px;
-  background: linear-gradient(90deg, 
-    var(--accent-blue, #2d8cf0), 
-    transparent
-  );
-  transform-origin: left;
-  transition: transform 0.3s var(--ease-out-cubic);
+  background: linear-gradient(90deg, #2d8cf0, transparent);
   transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
 }
 
 .highlight:hover::after {
   transform: scaleX(1);
 }
 
-/* Modern Button Styles */
+.role {
+  font-size: 1.75rem;
+  color: #8b949e;
+  margin: 1rem 0;
+  font-weight: 600;
+  opacity: 0;
+  animation: slideUp 0.6s ease forwards 0.4s;
+}
+
+.description {
+  font-size: 1.1rem;
+  color: #8b949e;
+  line-height: 1.8;
+  margin: 1.5rem 0;
+  max-width: 600px;
+  opacity: 0;
+  animation: slideUp 0.6s ease forwards 0.6s;
+}
+
+/* CTA Buttons */
 .cta-buttons {
   display: flex;
-  gap: clamp(1rem, 2vw, 1.5rem);
-  margin-top: clamp(1.5rem, 3vw, 2.5rem);
+  gap: 1.5rem;
+  margin-top: 2.5rem;
+  opacity: 0;
+  animation: slideUp 0.6s ease forwards 0.8s;
 }
 
 .btn {
   padding: 1rem 2rem;
-  border-radius: 12px;
+  border-radius: 8px;
   font-weight: 600;
-  font-size: clamp(0.875rem, 1.5vw, 1rem);
+  font-size: 1rem;
   text-decoration: none;
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  transition: all 0.3s var(--ease-out-cubic);
+  transition: all 0.3s ease;
 }
 
 .btn.primary {
-  background: linear-gradient(135deg,
-    var(--accent-blue, #2d8cf0),
-    var(--accent-blue-dark, #0073e6)
-  );
+  background: linear-gradient(45deg, #2d8cf0, #0073e6);
   color: white;
-  box-shadow: 0 4px 15px rgb(45 140 240 / 0.2);
+  box-shadow: 0 4px 15px rgba(45, 140, 240, 0.2);
 }
 
 .btn.primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgb(45 140 240 / 0.3);
+  box-shadow: 0 6px 20px rgba(45, 140, 240, 0.3);
 }
 
-/* Code Editor */
+.btn.secondary {
+  background: transparent;
+  border: 2px solid #2d8cf0;
+  color: #2d8cf0;
+}
+
+.btn.secondary:hover {
+  background: rgba(45, 140, 240, 0.1);
+  transform: translateY(-2px);
+}
+
+/* Code Editor Styles */
 .hero-code-editor {
-  background: rgb(13 17 23 / 0.7);
-  border-radius: 16px;
+  flex: 1;
+  background: rgba(13, 17, 23, 0.7);
+  border-radius: 12px;
   overflow: hidden;
-  box-shadow: 
-    0 20px 40px rgb(0 0 0 / 0.25),
-    0 0 0 1px rgb(255 255 255 / 0.1);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
   backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   transform: perspective(1000px) rotateY(-5deg);
-  transition: transform 0.3s var(--ease-out-cubic);
-  animation: fadeSlideIn 0.6s ease forwards 1s;
+  transition: all 0.3s ease;
+  opacity: 0;
+  animation: slideIn 0.6s ease forwards 1s;
 }
 
-/* Modern Animations */
-@keyframes fadeSlideUp {
+.hero-code-editor:hover {
+  transform: perspective(1000px) rotateY(-2deg) translateY(-5px);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+}
+
+.editor-header {
+  background: rgba(13, 17, 23, 0.95);
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.editor-buttons {
+  display: flex;
+  gap: 8px;
+  margin-right: 16px;
+}
+
+.editor-button {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  transition: transform 0.2s ease;
+}
+
+.editor-button.red { background: #ff5f57; }
+.editor-button.yellow { background: #febc2e; }
+.editor-button.green { background: #28c840; }
+
+.editor-title {
+  color: #8b949e;
+  font-size: 14px;
+  font-family: 'SF Mono', monospace;
+}
+
+.editor-content {
+  padding: 24px;
+  font-family: 'SF Mono', monospace;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.editor-content code {
+  color: #e6edf3;
+}
+
+/* Syntax Highlighting */
+.editor-content .comment { color: #8b949e; }
+.editor-content .keyword { color: #ff7b72; }
+.editor-content .string { color: #a5d6ff; }
+.editor-content .property { color: #79c0ff; }
+.editor-content .operator { color: #ff7b72; }
+.editor-content .punctuation { color: #c9d1d9; }
+
+/* Animations */
+@keyframes slideUp {
   from {
     opacity: 0;
     transform: translateY(30px);
@@ -255,7 +339,7 @@ ul {
   }
 }
 
-@keyframes fadeSlideIn {
+@keyframes slideIn {
   from {
     opacity: 0;
     transform: perspective(1000px) rotateY(-5deg) translateX(100px);
@@ -268,26 +352,65 @@ ul {
 
 @keyframes float {
   0%, 100% {
-    transform: translate(0);
+    transform: translate(0, 0);
   }
   50% {
     transform: translate(-20px, 20px);
   }
 }
 
-/* Modern Responsive Design */
-@container (max-width: 768px) {
+/* Responsive Styles */
+@media (max-width: 1200px) {
   .hero-content {
-    grid-template-columns: 1fr;
+    padding: 0 2rem;
+  }
+}
+
+@media (max-width: 992px) {
+  .main-title {
+    font-size: 3.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-content {
+    flex-direction: column;
     text-align: center;
+    gap: 3rem;
+  }
+
+  .main-title {
+    font-size: 3rem;
+  }
+
+  .hero-code-editor {
+    transform: none;
+    width: 100%;
+  }
+
+  .hero-code-editor:hover {
+    transform: translateY(-5px);
   }
 
   .cta-buttons {
     justify-content: center;
   }
+
+  .description {
+    margin-left: auto;
+    margin-right: auto;
+  }
 }
 
 @media (max-width: 480px) {
+  .hero {
+    padding: 4rem 1rem;
+  }
+
+  .main-title {
+    font-size: 2.5rem;
+  }
+
   .cta-buttons {
     flex-direction: column;
   }
