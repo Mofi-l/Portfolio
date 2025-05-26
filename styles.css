@@ -9,6 +9,8 @@
   --secondary-light: #f0f0f0;
   --text-dark: #0d1117;
   --accent-light: #0366d6;
+  --section-bg-rgb: 255, 255, 255; /* or your background color in RGB */
+  --link-color-rgb: 0, 120, 255;
 }
 
 html[data-theme='dark'] {
