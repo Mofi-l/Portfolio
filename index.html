@@ -594,34 +594,34 @@ const specialist = {
 //Particles
 document.addEventListener('DOMContentLoaded', () => {
     const particles = document.querySelector('.particles');
-    const particleCount = 100; // Increased number of particles
+    const particleCount = 100;
 
     function createParticle() {
         const particle = document.createElement('div');
         particle.className = 'particle';
-
-        // Random size between 2px and 4px
-        const size = 2 + Math.random() * 2;
-        particle.style.width = `${size}px`;
-        particle.style.height = `${size}px`;
-
-        // Random starting position
+        
+        // Random position
         particle.style.left = `${Math.random() * 100}%`;
         particle.style.top = `${Math.random() * 100}%`;
-
-        // Random translation values
-        const tx = (Math.random() - 0.5) * 200; // px
-        const ty = (Math.random() - 0.5) * 200; // px
-        particle.style.setProperty('--tx', `${tx}px`);
-        particle.style.setProperty('--ty', `${ty}px`);
-
-        // Animation properties
+        
+        // Random movement distance
+        const moveX = (Math.random() - 0.5) * 400; // px
+        const moveY = (Math.random() - 0.5) * 400; // px
+        particle.style.setProperty('--move-x', `${moveX}px`);
+        particle.style.setProperty('--move-y', `${moveY}px`);
+        
+        // Random duration between 15-30 seconds
         const duration = 15 + Math.random() * 15;
-        particle.style.animation = `float ${duration}s infinite`;
-
+        particle.style.setProperty('--duration', `${duration}s`);
+        
         // Random delay
-        particle.style.animationDelay = `${Math.random() * duration}s`;
-
+        particle.style.animationDelay = `${Math.random() * -duration}s`;
+        
+        // Randomly add star class
+        if (Math.random() > 0.7) {
+            particle.classList.add('star');
+        }
+        
         particles.appendChild(particle);
     }
 
@@ -630,16 +630,15 @@ document.addEventListener('DOMContentLoaded', () => {
         createParticle();
     }
 
-    // Continuously create new particles
+    // Optional: Regenerate particles periodically
     setInterval(() => {
-        const particle = document.querySelector('.particle');
-        if (particle) {
-            particle.remove();
+        const oldParticle = particles.firstChild;
+        if (oldParticle) {
+            oldParticle.remove();
             createParticle();
         }
     }, 100);
 });
-
 
 
 // Add syntax highlighting classes to code elements
