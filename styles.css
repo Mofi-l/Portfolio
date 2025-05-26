@@ -53,6 +53,39 @@ a {
 ul {
   list-style: none;
 }
+
+/* NAVBAR */
+.navbar {
+  background: var(--section-bg);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.nav-links {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.nav-link {
+  color: var(--text-color);
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+.nav-link:hover,
+.nav-link.active {
+  color: var(--link-color);
+}
 /*--------------------------------------------------*/
 /* THEME TOGGLE */
 .theme-toggle {
@@ -61,75 +94,6 @@ ul {
   color: var(--link-color);
   font-size: 1.2rem;
   cursor: pointer;
-}
-/*--------------------------------------------------*/
-/* NAVBAR */
-.navbar {
-  background: rgba(13, 17, 23, 0.8);
-  backdrop-filter: blur(10px);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem 2rem;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 1000;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.logo {
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: var(--text-color);
-  display: flex;
-  align-items: center;
-}
-
-.logo-dot {
-  width: 5px;
-  height: 5px;
-  background: var(--highlight-color);
-  border-radius: 50%;
-  margin-left: 2px;
-}
-
-.nav-links {
-  display: flex;
-  gap: 1.5rem;
-  margin: 0;
-  padding: 0;
-}
-
-.nav-link {
-  color: var(--text-color);
-  font-weight: 500;
-  transition: color 0.3s;
-  text-decoration: none;
-  position: relative;
-  padding: 0.5rem 0;
-}
-
-.nav-link::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 0;
-  height: 2px;
-  background: var(--highlight-color);
-  transition: width 0.3s ease;
-}
-
-.nav-link:hover::after,
-.nav-link.active::after {
-  width: 100%;
-}
-
-.nav-link:hover,
-.nav-link.active {
-  color: var(--highlight-color);
 }
 /*--------------------------------------------------*/
 /* Hero Section Base Styles */
@@ -292,6 +256,77 @@ ul {
   transform: translateY(-2px);
 }
 
+/* Code Editor Styles */
+.hero-code-editor {
+  flex: 1;
+  background: rgba(13, 17, 23, 0.7);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transform: perspective(1000px) rotateY(-5deg);
+  transition: all 0.3s ease;
+  opacity: 0;
+  animation: slideIn 0.6s ease forwards 1s;
+}
+
+.hero-code-editor:hover {
+  transform: perspective(1000px) rotateY(-2deg) translateY(-5px);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+}
+
+.editor-header {
+  background: rgba(13, 17, 23, 0.95);
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.editor-buttons {
+  display: flex;
+  gap: 8px;
+  margin-right: 16px;
+}
+
+.editor-button {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  transition: transform 0.2s ease;
+}
+
+.editor-button.red { background: #ff5f57; }
+.editor-button.yellow { background: #febc2e; }
+.editor-button.green { background: #28c840; }
+
+.editor-title {
+  color: #8b949e;
+  font-size: 14px;
+  font-family: 'SF Mono', monospace;
+}
+
+.editor-content {
+  padding: 24px;
+  font-family: 'SF Mono', monospace;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.editor-content code {
+  color: #e6edf3;
+}
+
+/* Syntax Highlighting */
+.editor-content .comment { color: #8b949e; }
+.editor-content .keyword { color: #ff7b72; }
+.editor-content .string { color: #a5d6ff; }
+.editor-content .property { color: #79c0ff; }
+.editor-content .operator { color: #ff7b72; }
+.editor-content .punctuation { color: #c9d1d9; }
+
 /* Animations */
 @keyframes slideUp {
   from {
@@ -338,26 +373,6 @@ ul {
 }
 
 @media (max-width: 768px) {
-  .navbar {
-    padding: 1rem;
-  }
-
-  .nav-links {
-    display: none;
-  }
-
-  .nav-links.active {
-    display: flex;
-    flex-direction: column;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    background: rgba(13, 17, 23, 0.95);
-    padding: 1rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  }
-
   .hero-content {
     flex-direction: column;
     text-align: center;
@@ -366,6 +381,15 @@ ul {
 
   .main-title {
     font-size: 3rem;
+  }
+
+  .hero-code-editor {
+    transform: none;
+    width: 100%;
+  }
+
+  .hero-code-editor:hover {
+    transform: translateY(-5px);
   }
 
   .cta-buttons {
