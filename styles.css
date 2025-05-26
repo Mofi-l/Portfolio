@@ -96,6 +96,77 @@ ul {
   cursor: pointer;
 }
 /*--------------------------------------------------*/
+/* Particles Animation */
+.hero {
+  position: relative;
+  overflow: hidden;
+}
+
+.particles {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.particle {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+}
+
+/* Generate multiple particles with different animations */
+@for $i from 1 through 50 {
+  .particle:nth-child(#{$i}) {
+    $size: random(3) + 1px;
+    width: $size;
+    height: $size;
+    animation: floating-#{$i} #{random(20) + 10}s infinite linear;
+    opacity: #{random(100) / 100};
+    
+    @keyframes floating-#{$i} {
+      from {
+        transform: translate(
+          #{random(100)}vw,
+          #{random(100)}vh
+        );
+      }
+      to {
+        transform: translate(
+          #{random(100)}vw,
+          #{random(100)}vh
+        );
+      }
+    }
+  }
+}
+
+/* Add a subtle glow effect to particles */
+.particle::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.3),
+    transparent 70%
+  );
+  opacity: 0.5;
+}
+
+/* Ensure hero content stays above particles */
+.hero-content {
+  position: relative;
+  z-index: 2;
+}
 /* Hero Section Base Styles */
 .hero {
   min-height: 100vh;
