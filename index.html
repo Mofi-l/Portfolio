@@ -3,7 +3,18 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Abdul Mofil</title>
+  <title>Abdul Mofil — Senior Process Specialist | Process, Automation &amp; Analytics</title>
+  <meta name="description" content="Abdul Mofil — Senior Process Specialist at Amazon Microsites. Process improvement, project management and automation, with hands-on web and cloud (AWS) development." />
+  <meta name="author" content="Abdul Mofil" />
+  <meta name="theme-color" content="#0f0f1e" />
+  <!-- Open Graph / social sharing -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Abdul Mofil — Senior Process Specialist" />
+  <meta property="og:description" content="Process improvement, project management and automation, with hands-on web and cloud development." />
+  <meta property="og:url" content="https://mofi-l.github.io/Portfolio/" />
+  <meta name="twitter:card" content="summary" />
+  <!-- Favicon: inline SVG monogram (no external request) -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%236c5ce7'/%3E%3Ctext x='50%25' y='55%25' font-family='Poppins,Arial,sans-serif' font-size='30' font-weight='700' fill='%23ffffff' text-anchor='middle' dominant-baseline='middle'%3EAM%3C/text%3E%3C/svg%3E" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism-tomorrow.min.css" rel="stylesheet" />
@@ -21,11 +32,15 @@
         <li><a href="#home" class="nav-link active">Home</a></li>
         <li><a href="#about" class="nav-link">About</a></li>
         <li><a href="#experience" class="nav-link">Experience</a></li>
+        <li><a href="#projects" class="nav-link">Projects</a></li>
         <li><a href="#skills" class="nav-link">Skills</a></li>
         <li><a href="#contact" class="nav-link">Contact</a></li>
       </ul>
       <button class="theme-toggle" id="theme-toggle" aria-label="Toggle Theme">
         <i class="fas fa-moon" id="theme-icon"></i>
+      </button>
+      <button class="hamburger-menu" aria-label="Toggle menu" aria-expanded="false">
+        <i class="fas fa-bars"></i>
       </button>
     </nav>
   </header>
@@ -33,7 +48,7 @@
 <main>
 <!-- Hero Section -->
 <section id="home" class="hero">
-      <div class="particle"></div>
+      <div class="particles"></div>
     <div class="hero-content">
     <div class="hero-text-content">
       <div class="greeting">Hello! I'm</div>
@@ -86,8 +101,8 @@ const specialist = {
         <div class="about-content">
           <div class="about-text">
             <p class="highlight-text">
-              Dynamic and results-driven professional with 7 years of Amazon platform expertise,
-              including 2 years of strategic project management experience. Proven track record of
+              Dynamic and results-driven professional with <span id="years-exp">7</span>+ years of Amazon
+              platform expertise, including several years of strategic project management. Proven track record of
               optimizing Selling Partner processes through data-driven insights and effective
               stakeholder collaboration. Excel in streamlining workflows, identifying process
               defects, and implementing scalable solutions that drive measurable growth.
@@ -100,7 +115,7 @@ const specialist = {
 
           <div class="stats-container">
             <div class="stat-card" data-aos="fade-up">
-              <div class="stat-number" data-target="7">0</div>
+              <div class="stat-number" id="years-stat" data-start-year="2017" data-target="7">0</div>
               <div class="stat-label">Years of Experience</div>
             </div>
         <div class="stat-card" data-aos="fade-up" data-aos-delay="100">
@@ -159,7 +174,7 @@ const specialist = {
                 <div class="achievement-icon">
                   <i class="fas fa-code"></i>
                 </div>
-                <p>Created an NPT tracking tool "Aura" using programming and cloud computing</p>
+                <p>Designed and built <strong>Aura</strong>, an internal operations web app (JavaScript + AWS) spanning real-time NPT tracking, productivity and capacity dashboards, and an in-app AI assistant</p>
               </div>
               <div class="achievement-item">
                 <div class="achievement-icon">
@@ -384,15 +399,15 @@ const specialist = {
         <h3>Aura Automation Tool</h3>
       </div>
       <div class="project-body">
-        <p>NPT tracking tool for Microsite operations using programming and cloud computing</p>
+        <p>Internal web app for Microsite operations: real-time NPT tracking, productivity, capacity and project-health dashboards, plus an in-app AI assistant — built end to end with JavaScript and AWS.</p>
         <div class="project-stats">
           <div class="stat">
-            <i class="fas fa-clock"></i>
-            <span>Automated Data Collection</span>
+            <i class="fab fa-js"></i>
+            <span>JavaScript + AWS</span>
           </div>
           <div class="stat">
-            <i class="fas fa-cloud"></i>
-            <span>Cloud-Based Solution</span>
+            <i class="fas fa-gauge-high"></i>
+            <span>20+ Dashboards &amp; Tools</span>
           </div>
         </div>
       </div>
@@ -517,13 +532,21 @@ const specialist = {
         <div class="contact-container">
           <!-- Contact Info Cards -->
           <div class="contact-info">
+            <!-- To show a personal email instead of GitHub, swap in this card and fill your address:
+            <div class="contact-card" data-aos="fade-right">
+              <div class="contact-icon"><i class="fas fa-envelope-open-text"></i></div>
+              <h3>Email Me</h3>
+              <p>your.email@example.com</p>
+              <a href="mailto:your.email@example.com" class="contact-link">Send Email</a>
+            </div>
+            -->
             <div class="contact-card" data-aos="fade-right">
               <div class="contact-icon">
-                <i class="fas fa-envelope-open-text"></i>
+                <i class="fab fa-github"></i>
               </div>
-              <h3>Email Me</h3>
-              <p>mofila@amazon.com</p>
-              <a href="mailto:mofila@amazon.com" class="contact-link">Send Email</a>
+              <h3>GitHub</h3>
+              <p>Code &amp; projects</p>
+              <a href="https://github.com/Mofi-l" class="contact-link" target="_blank" rel="noopener">View GitHub</a>
             </div>
 
             <div class="contact-card" data-aos="fade-right" data-aos-delay="100">
@@ -562,23 +585,21 @@ const specialist = {
           <p>Process Specialist & Innovator at times</p>
         </div>
         <div class="social-links">
-          <a href="https://www.linkedin.com/in/abdul-mofil-979244198" class="social-link" title="LinkedIn">
+          <a href="https://www.linkedin.com/in/abdul-mofil-979244198" class="social-link" title="LinkedIn" target="_blank" rel="noopener">
             <i class="fab fa-linkedin"></i>
           </a>
-          <a href="https://github.com/Mofi-l" class="social-link" title="GitHub">
+          <a href="https://github.com/Mofi-l" class="social-link" title="GitHub" target="_blank" rel="noopener">
             <i class="fab fa-github"></i>
-          </a>
-          <a href="https://phonetool.amazon.com/users/mofila" class="social-link" title="Phonetool">
-            <i class="fa fa-phone phone-tool-logo-icon"></i>
           </a>
         </div>
       </div>
       <div class="footer-bottom">
-        <p></p>
+        <p>&copy; <span id="footer-year">2026</span> Abdul Mofil. All rights reserved.</p>
         <div class="quick-links">
           <a href="#home">Home</a>
           <a href="#about">About</a>
           <a href="#experience">Experience</a>
+          <a href="#projects">Projects</a>
           <a href="#skills">Skills</a>
         </div>
       </div>
@@ -773,6 +794,46 @@ document.addEventListener('DOMContentLoaded', function() {
     // Check on scroll
     window.addEventListener('scroll', checkScroll);
   });
+</script>
+
+<script>
+  // Evergreen years-of-experience: counts from career start so it never goes stale
+  (function () {
+    var START_YEAR = 2017;
+    var years = Math.max(1, new Date().getFullYear() - START_YEAR);
+    var statEl = document.getElementById('years-stat');
+    if (statEl) statEl.setAttribute('data-target', String(years));
+    var proseEl = document.getElementById('years-exp');
+    if (proseEl) proseEl.textContent = String(years);
+    var fy = document.getElementById('footer-year');
+    if (fy) fy.textContent = String(new Date().getFullYear());
+  })();
+
+  // Close the mobile menu after tapping a nav link
+  document.querySelectorAll('.nav-links a').forEach(function (link) {
+    link.addEventListener('click', function () {
+      var nav = document.querySelector('.nav-links');
+      if (nav) nav.classList.remove('show');
+    });
+  });
+
+  // Scroll-spy: highlight the current section in the navbar
+  (function () {
+    var sections = document.querySelectorAll('main section[id]');
+    var navLinks = document.querySelectorAll('.nav-link');
+    if (!('IntersectionObserver' in window) || !sections.length) return;
+    var obs = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          var id = entry.target.getAttribute('id');
+          navLinks.forEach(function (l) {
+            l.classList.toggle('active', l.getAttribute('href') === '#' + id);
+          });
+        }
+      });
+    }, { rootMargin: '-40% 0px -55% 0px' });
+    sections.forEach(function (s) { obs.observe(s); });
+  })();
 </script>
 
 </body>

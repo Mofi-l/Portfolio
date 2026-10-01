@@ -2456,3 +2456,21 @@ ul {
     transform-origin: left;
   }
 }
+
+
+/* ── Portfolio refresh additions (2026) ───────────────────────────────── */
+/* Smooth in-page scrolling for nav links */
+html { scroll-behavior: smooth; }
+
+/* Hamburger button: hidden on desktop, revealed in the ≤768px media query above */
+.hamburger-menu {
+  display: none;
+  background: none;
+  border: none;
+  color: inherit;
+  padding: 0;
+  line-height: 1;
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
