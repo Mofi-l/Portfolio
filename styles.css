@@ -1182,6 +1182,32 @@ ul {
   transform: scale(1.1);
 }
 
+/* Authentic brand colours for the icon-font skills (overrides the shared blue
+   gradient). Brand glyphs show their real colour; the few representative glyphs
+   (SQL, JSON, VBA) use a fitting brand-ish tone since they have no official logo. */
+.skill-item[data-skill="JavaScript"] i,
+.skill-item[data-skill="SQL"] i,
+.skill-item[data-skill="AWS"] i,
+.skill-item[data-skill="PowerBI"] i,
+.skill-item[data-skill="Excel"] i,
+.skill-item[data-skill="HTML/CSS"] i,
+.skill-item[data-skill="JSON"] i,
+.skill-item[data-skill="Minitab"] i,
+.skill-item[data-skill="AWS Lambda"] i,
+.skill-item[data-skill="VBA"] i {
+  background: none;
+}
+.skill-item[data-skill="JavaScript"] i { color: #f7df1e; -webkit-text-fill-color: #f7df1e; }
+.skill-item[data-skill="SQL"] i         { color: #4479a1; -webkit-text-fill-color: #4479a1; }
+.skill-item[data-skill="AWS"] i         { color: #ff9900; -webkit-text-fill-color: #ff9900; }
+.skill-item[data-skill="PowerBI"] i     { color: #f2c811; -webkit-text-fill-color: #f2c811; }
+.skill-item[data-skill="Excel"] i       { color: #21a366; -webkit-text-fill-color: #21a366; }
+.skill-item[data-skill="HTML/CSS"] i    { color: #e34f26; -webkit-text-fill-color: #e34f26; }
+.skill-item[data-skill="JSON"] i        { color: #a6b1c2; -webkit-text-fill-color: #a6b1c2; }
+.skill-item[data-skill="Minitab"] i     { color: #3e8e41; -webkit-text-fill-color: #3e8e41; }
+.skill-item[data-skill="AWS Lambda"] i  { color: #ff9900; -webkit-text-fill-color: #ff9900; }
+.skill-item[data-skill="VBA"] i         { color: #8268bb; -webkit-text-fill-color: #8268bb; }
+
 .skill-name {
   font-size: 1rem;
   font-weight: 500;
