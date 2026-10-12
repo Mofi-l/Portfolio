@@ -48,14 +48,13 @@
 <main>
 <!-- Hero Section -->
 <section id="home" class="hero">
-      <div class="particles"></div>
     <div class="hero-content">
     <div class="hero-text-content">
       <div class="greeting">Hello! I'm</div>
       <h1 class="main-title">Abdul <span class="highlight">Mofil</span></h1>
       <h2 class="role">Senior Process Specialist - Microsites</h2>
       <p class="description">
-        Transforming Selling Partner Support business processes with data-driven insights and innovative solutions.
+        Transforming Selling Partner Support operations with data-driven process improvement and full-stack automation — turning manual workflows into AWS-powered web apps.
       </p>
       <div class="cta-buttons">
         <a href="#contact" class="btn primary">Get In Touch<span>→</span></a>
@@ -81,7 +80,7 @@ const specialist = {
     name: 'Abdul Mofil',
     role: 'Senior Process Specialist',
     team: 'Amazon Microsites',
-    expertise: ['Process Developement', 'Project Management','Automation'],
+    expertise: ['Process Improvement', 'Project Management', 'Full-Stack Automation'],
     certifications: ['Lean Six Sigma Green Belt','ACES Stage 1'],
     mission: 'Driving operational excellence through innovation'
 };</code></pre>
@@ -160,9 +159,9 @@ const specialist = {
             <div class="achievement-grid">
               <div class="achievement-item">
                 <div class="achievement-icon">
-                  <i class="fas fa-chart-line"></i>
+                  <i class="fas fa-code"></i>
                 </div>
-                <p>Handled over 35 projects working with SPX improvement teams to enhance the Selling Partner and Associate experience</p>
+                <p>Architected and built <strong>Aura</strong>, a standalone internal operations platform (AWS Amplify, Cognito, S3, Lambda) with 20+ dashboards and tools, serving multiple teams across 3 sites at zero added tooling cost</p>
               </div>
               <div class="achievement-item highlight">
                 <div class="achievement-icon">
@@ -172,15 +171,21 @@ const specialist = {
               </div>
               <div class="achievement-item">
                 <div class="achievement-icon">
-                  <i class="fas fa-code"></i>
+                  <i class="fas fa-robot"></i>
                 </div>
-                <p>Designed and built <strong>Aura</strong>, an internal operations web app (JavaScript + AWS) spanning real-time NPT tracking, productivity and capacity dashboards, and an in-app AI assistant</p>
+                <p>Built an in-app AI assistant (Amazon Nova + AWS Lambda) that answers operational questions from live data sources and runs actions through natural language</p>
               </div>
               <div class="achievement-item">
                 <div class="achievement-icon">
-                  <i class="fas fa-tasks"></i>
+                  <i class="fas fa-gauge-high"></i>
                 </div>
-                <p>Created Defect Consolidation Form using JSON for identifying improvement areas</p>
+                <p>Automated weekly business reporting and operations — productivity, capacity and project-health dashboards that replaced manual pivot tables and spreadsheets</p>
+              </div>
+              <div class="achievement-item">
+                <div class="achievement-icon">
+                  <i class="fas fa-rocket"></i>
+                </div>
+                <p>Delivered 6 platform releases in H1 2026 with 50+ new features while maintaining zero downtime for the team</p>
               </div>
             </div>
           </div>
@@ -335,6 +340,18 @@ const specialist = {
           <i class="fas fa-calculator"></i>
           <span class="skill-name">Minitab</span>
         </div>
+        <div class="skill-item" data-skill="AWS Lambda">
+          <i class="fas fa-bolt"></i>
+          <span class="skill-name">Lambda</span>
+        </div>
+        <div class="skill-item" data-skill="AI / Amazon Nova">
+          <i class="fas fa-brain"></i>
+          <span class="skill-name">AI / Nova</span>
+        </div>
+        <div class="skill-item" data-skill="VBA">
+          <i class="fas fa-file-code"></i>
+          <span class="skill-name">VBA</span>
+        </div>
       </div>
     </div>
 
@@ -392,17 +409,17 @@ const specialist = {
   </div>
 
   <div class="projects-container">
-    <!-- Project 1: Aura Automation Tool -->
+    <!-- Project 1: Aura Operations Platform -->
     <div class="project-card" data-aos="zoom-in">
       <div class="project-header">
-        <i class="fas fa-robot"></i>
-        <h3>Aura Automation Tool</h3>
+        <i class="fas fa-layer-group"></i>
+        <h3>Aura Operations Platform</h3>
       </div>
       <div class="project-body">
-        <p>Internal web app for Microsite operations: real-time NPT tracking, productivity, capacity and project-health dashboards, plus an in-app AI assistant — built end to end with JavaScript and AWS.</p>
+        <p>A standalone internal web platform built end to end with JavaScript and AWS (Amplify, Cognito, S3, Lambda): real-time tracking, productivity, capacity and project-health dashboards, project management and an in-app AI assistant — one deployment serving multiple teams across 3 sites.</p>
         <div class="project-stats">
           <div class="stat">
-            <i class="fab fa-js"></i>
+            <i class="fab fa-aws"></i>
             <span>JavaScript + AWS</span>
           </div>
           <div class="stat">
@@ -413,7 +430,28 @@ const specialist = {
       </div>
     </div>
 
-    <!-- Project 2: SOP Optimization -->
+    <!-- Project 2: In-App AI Assistant -->
+    <div class="project-card" data-aos="zoom-in" data-aos-delay="100">
+      <div class="project-header">
+        <i class="fas fa-robot"></i>
+        <h3>In-App AI Assistant</h3>
+      </div>
+      <div class="project-body">
+        <p>A natural-language assistant inside Aura, powered by Amazon Nova via AWS Lambda — reads from live data sources, answers questions in plain English, explains features from an in-app knowledge base, and executes actions like opening tools and searching projects.</p>
+        <div class="project-stats">
+          <div class="stat">
+            <i class="fas fa-brain"></i>
+            <span>Amazon Nova + Lambda</span>
+          </div>
+          <div class="stat">
+            <i class="fas fa-comments"></i>
+            <span>Natural-Language Actions</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Project 3: SOP Optimization -->
     <div class="project-card" data-aos="zoom-in" data-aos-delay="100">
       <div class="project-header">
         <i class="fas fa-tasks"></i>
@@ -611,56 +649,6 @@ const specialist = {
 <script>
   // Animate on Scroll Init
   AOS.init();
-
-//Particles
-document.addEventListener('DOMContentLoaded', () => {
-    const particles = document.querySelector('.particles');
-    const particleCount = 100;
-
-    function createParticle() {
-        const particle = document.createElement('div');
-        particle.className = 'particle';
-        
-        // Random position
-        particle.style.left = `${Math.random() * 100}%`;
-        particle.style.top = `${Math.random() * 100}%`;
-        
-        // Random movement distance
-        const moveX = (Math.random() - 0.5) * 400; // px
-        const moveY = (Math.random() - 0.5) * 400; // px
-        particle.style.setProperty('--move-x', `${moveX}px`);
-        particle.style.setProperty('--move-y', `${moveY}px`);
-        
-        // Random duration between 15-30 seconds
-        const duration = 15 + Math.random() * 15;
-        particle.style.setProperty('--duration', `${duration}s`);
-        
-        // Random delay
-        particle.style.animationDelay = `${Math.random() * -duration}s`;
-        
-        // Randomly add star class
-        if (Math.random() > 0.7) {
-            particle.classList.add('star');
-        }
-        
-        particles.appendChild(particle);
-    }
-
-    // Create initial particles
-    for (let i = 0; i < particleCount; i++) {
-        createParticle();
-    }
-
-    // Optional: Regenerate particles periodically
-    setInterval(() => {
-        const oldParticle = particles.firstChild;
-        if (oldParticle) {
-            oldParticle.remove();
-            createParticle();
-        }
-    }, 100);
-});
-
 
 // Add syntax highlighting classes to code elements
 document.addEventListener('DOMContentLoaded', function() {
