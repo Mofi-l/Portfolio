@@ -1168,6 +1168,20 @@ ul {
   transform: scale(1.1);
 }
 
+/* Brand-logo skills (Amazon Nova, Amazon Quick, Kiro) — real SVG marks, sized to
+   match the icon footprint. Shown in their official colors; rounded to sit neatly. */
+.skill-item .skill-logo-img {
+  width: 2.5rem;
+  height: 2.5rem;
+  object-fit: contain;
+  border-radius: 10px;
+  transition: transform 0.3s ease;
+}
+
+.skill-item:hover .skill-logo-img {
+  transform: scale(1.1);
+}
+
 .skill-name {
   font-size: 1rem;
   font-weight: 500;
