@@ -2639,3 +2639,31 @@ html[data-theme='light'] #bg-canvas { display: none; }
 @media (min-width: 993px) {
   #about, #experience, #projects, #skills, #contact { padding-right: 10rem; }
 }
+
+/*--------------------------------------------------*/
+/* Polish pass — calmer, centered, more cohesive. Drops the staggered offsets in
+   favour of consistent centred content; the timeline, carousel, orbit nav and
+   interactive backdrop still provide the visual interest. */
+#about .about-container,
+#skills .skills-container,
+#experience .experience-container { margin-left: auto; margin-right: auto; }
+#about .about-container { max-width: 1000px; }
+#skills .skills-container { max-width: 1040px; }
+#experience .experience-container { max-width: 1040px; }
+
+/* Slightly smaller right gutter for the slimmer orbit nav */
+@media (min-width: 993px) {
+  #about, #experience, #projects, #skills, #contact { padding-right: 7rem; }
+}
+
+/* Slimmer, tidier orbit nav */
+.orbit-nav { right: 3.5rem; }
+.orbit-ring { width: 92px; height: 92px; }
+.orbit-item {
+  width: 30px; height: 30px; margin: -15px;
+  transform: rotate(calc(var(--i) * 60deg)) translateY(-46px) rotate(calc(var(--i) * -60deg));
+}
+.orbit-item i { font-size: 0.72rem; }
+
+/* Tighten header-to-content spacing to cut dead space */
+.section-header { margin-bottom: 2.5rem !important; }

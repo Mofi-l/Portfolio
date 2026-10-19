@@ -877,7 +877,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const DEPTH = 190;
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    const palette = [0x1f6feb, 0x7873f5, 0x58a6ff, 0x9d7bff, 0x2dd4bf];
+    const palette = [0x2f6bff, 0x6c5ce7, 0x58a6ff, 0x8b7bff];
     const geos = [
       new THREE.IcosahedronGeometry(1, 0),
       new THREE.OctahedronGeometry(1, 0),
@@ -885,19 +885,19 @@ document.addEventListener('DOMContentLoaded', function() {
       new THREE.DodecahedronGeometry(1, 0),
       new THREE.TorusGeometry(0.75, 0.3, 10, 20)
     ];
-    const COUNT = window.innerWidth < 768 ? 55 : 95;
+    const COUNT = window.innerWidth < 768 ? 26 : 46;
     const SPREAD = 30;
     const shapes = [];
     for (let i = 0; i < COUNT; i++) {
       const color = palette[i % palette.length];
       const mat = new THREE.MeshStandardMaterial({
-        color, emissive: color, emissiveIntensity: 0.35,
-        metalness: 0.35, roughness: 0.4, flatShading: true,
-        transparent: true, opacity: 0.9
+        color, emissive: color, emissiveIntensity: 0.28,
+        metalness: 0.3, roughness: 0.45, flatShading: true,
+        transparent: true, opacity: 0.5
       });
       const mesh = new THREE.Mesh(geos[i % geos.length], mat);
       mesh.position.set((Math.random() - 0.5) * SPREAD, (Math.random() - 0.5) * SPREAD, 8 - Math.random() * DEPTH);
-      mesh.scale.setScalar(0.4 + Math.random() * 1.6);
+      mesh.scale.setScalar(0.35 + Math.random() * 1.0);
       mesh.rotation.set(Math.random() * Math.PI, Math.random() * Math.PI, Math.random() * Math.PI);
       mesh.userData.rot = { x: (Math.random() - 0.5) * 0.004, y: (Math.random() - 0.5) * 0.004, z: (Math.random() - 0.5) * 0.003 };
       mesh.userData.seed = Math.random() * Math.PI * 2;
@@ -906,7 +906,7 @@ document.addEventListener('DOMContentLoaded', function() {
       scene.add(mesh); shapes.push(mesh);
     }
 
-    const dustCount = window.innerWidth < 768 ? 700 : 1500;
+    const dustCount = window.innerWidth < 768 ? 500 : 900;
     const dg = new THREE.BufferGeometry();
     const dp = new Float32Array(dustCount * 3);
     for (let i = 0; i < dustCount; i++) {
@@ -915,12 +915,12 @@ document.addEventListener('DOMContentLoaded', function() {
       dp[i * 3 + 2] = 10 - Math.random() * DEPTH;
     }
     dg.setAttribute('position', new THREE.BufferAttribute(dp, 3));
-    const dust = new THREE.Points(dg, new THREE.PointsMaterial({ color: 0x9bb8ff, size: 0.07, transparent: true, opacity: 0.5, depthWrite: false }));
+    const dust = new THREE.Points(dg, new THREE.PointsMaterial({ color: 0x9bb8ff, size: 0.06, transparent: true, opacity: 0.32, depthWrite: false }));
     scene.add(dust);
 
     const composer = new EffectComposer(renderer);
     composer.addPass(new RenderPass(scene, camera));
-    composer.addPass(new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 0.65, 0.75, 0.2));
+    composer.addPass(new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 0.5, 0.7, 0.25));
     composer.addPass(new OutputPass());
 
     // Per-section camera waypoints — the camera "docks" into a distinct framing for
