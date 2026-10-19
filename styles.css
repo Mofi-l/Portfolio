@@ -2530,3 +2530,112 @@ html[data-theme='light'] #bg-canvas { display: none; }
   #experience .experience-container,
   #skills .skills-container { margin-left: auto; margin-right: auto; }
 }
+
+/*--------------------------------------------------*/
+/* Experience -> alternating timeline on a glowing spine */
+#experience .experience-container { margin: 0 auto; max-width: 1150px; }
+#experience .experience-cards { position: relative; }
+#experience .experience-cards::before {
+  content: '';
+  position: absolute;
+  left: 50%; top: 0; bottom: 0;
+  width: 2px; transform: translateX(-50%);
+  background: linear-gradient(180deg, transparent, #1f6feb 12%, #7873f5 88%, transparent);
+  box-shadow: 0 0 16px rgba(88, 166, 255, 0.45);
+}
+#experience .exp-card { width: calc(50% - 2.5rem); overflow: visible; }
+#experience .exp-card::before { border-radius: 20px; }
+#experience .exp-card:nth-child(odd)  { margin-right: auto; }
+#experience .exp-card:nth-child(even) { margin-left: auto; }
+#experience .exp-card::after {
+  content: '';
+  position: absolute; top: 2.4rem;
+  width: 16px; height: 16px; border-radius: 50%;
+  background: #58a6ff; box-shadow: 0 0 14px rgba(88, 166, 255, 0.9);
+  z-index: 3;
+}
+#experience .exp-card:nth-child(odd)::after  { right: calc(-2.5rem - 8px); }
+#experience .exp-card:nth-child(even)::after { left: calc(-2.5rem - 8px); }
+@media (max-width: 992px) {
+  #experience .experience-cards::before { display: none; }
+  #experience .exp-card { width: 100%; margin: 0; }
+  #experience .exp-card::after { display: none; }
+}
+
+/*--------------------------------------------------*/
+/* Projects -> horizontal snap carousel */
+.projects-container {
+  display: flex !important;
+  grid-template-columns: none !important;
+  overflow-x: auto;
+  gap: 2rem;
+  padding: 1rem 1rem 2rem;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+.projects-container .project-card {
+  flex: 0 0 min(340px, 82vw);
+  scroll-snap-align: center;
+  height: auto;
+}
+.projects-container::after { content: ''; flex: 0 0 0.5rem; }
+.projects-container::-webkit-scrollbar { height: 8px; }
+.projects-container::-webkit-scrollbar-thumb { background: rgba(120, 115, 245, 0.5); border-radius: 4px; }
+.projects-container::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.05); border-radius: 4px; }
+
+/*--------------------------------------------------*/
+/* Floating orbit nav (desktop) — section links orbiting a core, replacing the top-bar links */
+@media (min-width: 993px) { .navbar .nav-links { display: none; } }
+
+.orbit-nav {
+  position: fixed; right: 5rem; top: 50%;
+  width: 0; height: 0; transform: translateY(-50%);
+  z-index: 900;
+}
+.orbit-ring {
+  position: absolute; left: 50%; top: 50%;
+  width: 116px; height: 116px; border-radius: 50%;
+  transform: translate(-50%, -50%);
+  border: 1px dashed rgba(120, 115, 245, 0.28);
+}
+.orbit-core {
+  position: absolute; left: 50%; top: 50%;
+  width: 12px; height: 12px; border-radius: 50%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, #58a6ff, #1f6feb);
+  box-shadow: 0 0 16px rgba(88, 166, 255, 0.8);
+}
+.orbit-item {
+  position: absolute; left: 50%; top: 50%;
+  width: 34px; height: 34px; margin: -17px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 50%;
+  background: rgba(13, 17, 23, 0.82);
+  border: 1px solid rgba(120, 115, 245, 0.35);
+  color: #8b949e; text-decoration: none;
+  backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+  transition: color .3s, background .3s, border-color .3s, box-shadow .3s;
+  transform: rotate(calc(var(--i) * 60deg)) translateY(-58px) rotate(calc(var(--i) * -60deg));
+}
+.orbit-item i { font-size: 0.82rem; }
+.orbit-item:hover, .orbit-item.active {
+  color: #fff; background: linear-gradient(135deg, #1f6feb, #7873f5);
+  border-color: transparent; box-shadow: 0 0 14px rgba(88, 166, 255, 0.7);
+}
+.orbit-item::after {
+  content: attr(data-label);
+  position: absolute; right: 125%; top: 50%; transform: translateY(-50%);
+  white-space: nowrap; font-size: 0.72rem; color: #c6d4e3;
+  background: rgba(13, 17, 23, 0.92); padding: 3px 9px; border-radius: 6px;
+  border: 1px solid rgba(120, 115, 245, 0.25);
+  opacity: 0; pointer-events: none; transition: opacity .25s;
+}
+.orbit-item:hover::after { opacity: 1; }
+@media (max-width: 992px) { .orbit-nav { display: none; } }
+
+/*--------------------------------------------------*/
+/* Reserve a right gutter on desktop so content never hides under the orbit nav.
+   The hero stays full-width (the orbit floats in its empty right space). */
+@media (min-width: 993px) {
+  #about, #experience, #projects, #skills, #contact { padding-right: 10rem; }
+}

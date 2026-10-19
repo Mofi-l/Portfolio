@@ -54,6 +54,17 @@
     </nav>
   </header>
 
+  <nav class="orbit-nav" aria-label="Section navigation">
+    <span class="orbit-ring"></span>
+    <span class="orbit-core"></span>
+    <a href="#home" class="orbit-item" data-label="Home" style="--i:0"><i class="fas fa-house"></i></a>
+    <a href="#about" class="orbit-item" data-label="About" style="--i:1"><i class="fas fa-user"></i></a>
+    <a href="#experience" class="orbit-item" data-label="Experience" style="--i:2"><i class="fas fa-briefcase"></i></a>
+    <a href="#projects" class="orbit-item" data-label="Projects" style="--i:3"><i class="fas fa-diagram-project"></i></a>
+    <a href="#skills" class="orbit-item" data-label="Skills" style="--i:4"><i class="fas fa-layer-group"></i></a>
+    <a href="#contact" class="orbit-item" data-label="Contact" style="--i:5"><i class="fas fa-envelope"></i></a>
+  </nav>
+
 <main>
 <!-- Hero Section -->
 <section id="home" class="hero">
@@ -911,13 +922,28 @@ document.addEventListener('DOMContentLoaded', function() {
     composer.addPass(new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 0.65, 0.75, 0.2));
     composer.addPass(new OutputPass());
 
-    let sT = 0, sTarget = 0;
-    const setScroll = () => {
-      const max = document.documentElement.scrollHeight - window.innerHeight;
-      sTarget = max > 0 ? Math.min(Math.max(window.scrollY / max, 0), 1) : 0;
+    // Per-section camera waypoints — the camera "docks" into a distinct framing for
+    // each section instead of a continuous fly-through, easing/settling as you arrive.
+    const WP = [
+      { p: new THREE.Vector3(0, 0, 12),    l: new THREE.Vector3(0, 0, -12) },   // home
+      { p: new THREE.Vector3(-9, 3, -14),  l: new THREE.Vector3(3, 0, -34) },   // about
+      { p: new THREE.Vector3(10, -4, -42), l: new THREE.Vector3(-3, 2, -64) },  // experience
+      { p: new THREE.Vector3(-7, 6, -74),  l: new THREE.Vector3(4, -2, -96) },  // projects
+      { p: new THREE.Vector3(8, 2, -106),  l: new THREE.Vector3(-4, -1, -128) },// skills
+      { p: new THREE.Vector3(0, -3, -140), l: new THREE.Vector3(0, 1, -162) }   // contact
+    ];
+    const SECTION_IDS = ['home', 'about', 'experience', 'projects', 'skills', 'contact'];
+    let centers = [];
+    const measure = () => {
+      centers = SECTION_IDS.map((id) => {
+        const el = document.getElementById(id);
+        if (!el) return null;
+        const r = el.getBoundingClientRect();
+        return r.top + window.scrollY + el.offsetHeight / 2;
+      }).filter((v) => v !== null);
     };
-    setScroll();
-    window.addEventListener('scroll', setScroll, { passive: true });
+    measure();
+    window.addEventListener('load', measure);
 
     const mo = { x: 0, y: 0 }, moT = { x: 0, y: 0 };
     window.addEventListener('pointermove', (e) => {
@@ -930,20 +956,41 @@ document.addEventListener('DOMContentLoaded', function() {
       camera.updateProjectionMatrix();
       renderer.setSize(window.innerWidth, window.innerHeight);
       composer.setSize(window.innerWidth, window.innerHeight);
+      measure();
     });
 
+    const smooth = (x) => x * x * (3 - 2 * x);
+    const camPos = WP[0].p.clone();
+    const camLook = WP[0].l.clone();
+    const tP = new THREE.Vector3();
+    const tL = new THREE.Vector3();
     const clock = new THREE.Clock();
+
     function tick() {
       const t = clock.getElapsedTime();
-      sT += (sTarget - sT) * 0.06;
       mo.x += (moT.x - mo.x) * 0.05;
       mo.y += (moT.y - mo.y) * 0.05;
 
-      const camZ = 12 - sT * DEPTH * 0.8;
-      camera.position.z = camZ;
-      camera.position.x = mo.x * 4 + Math.sin(sT * Math.PI * 2) * 2.2;
-      camera.position.y = -mo.y * 3 + Math.cos(sT * Math.PI * 1.5) * 1.6;
-      camera.lookAt(camera.position.x * 0.3, camera.position.y * 0.3, camZ - 22);
+      const n = Math.min(centers.length, WP.length);
+      if (n >= 2) {
+        const vc = window.scrollY + window.innerHeight * 0.5;
+        let i = 0;
+        while (i < n - 1 && vc > centers[i + 1]) i++;
+        const j = Math.min(i + 1, n - 1);
+        const span = (centers[j] - centers[i]) || 1;
+        const f = smooth(Math.max(0, Math.min(1, (vc - centers[i]) / span)));
+        tP.lerpVectors(WP[i].p, WP[j].p, f);
+        tL.lerpVectors(WP[i].l, WP[j].l, f);
+      } else {
+        tP.copy(WP[0].p);
+        tL.copy(WP[0].l);
+      }
+      tP.x += mo.x * 4;
+      tP.y += -mo.y * 3;
+      camPos.lerp(tP, 0.055);
+      camLook.lerp(tL, 0.055);
+      camera.position.copy(camPos);
+      camera.lookAt(camLook);
 
       if (!reduce) {
         for (const s of shapes) {
@@ -959,6 +1006,28 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     tick();
   }
+</script>
+<script>
+  // Orbit-nav scroll-spy: highlight the section currently crossing the viewport middle.
+  (function () {
+    const items = Array.from(document.querySelectorAll('.orbit-item'));
+    if (!items.length || !('IntersectionObserver' in window)) return;
+    const map = {};
+    items.forEach((a) => { map[a.getAttribute('href').slice(1)] = a; });
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) {
+          items.forEach((i) => i.classList.remove('active'));
+          const el = map[e.target.id];
+          if (el) el.classList.add('active');
+        }
+      });
+    }, { rootMargin: '-45% 0px -45% 0px', threshold: 0 });
+    ['home', 'about', 'experience', 'projects', 'skills', 'contact'].forEach((id) => {
+      const s = document.getElementById(id);
+      if (s) obs.observe(s);
+    });
+  })();
 </script>
 </body>
 </html>
