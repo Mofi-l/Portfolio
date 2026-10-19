@@ -902,6 +902,7 @@ document.addEventListener('DOMContentLoaded', function() {
       mesh.userData.rot = { x: (Math.random() - 0.5) * 0.004, y: (Math.random() - 0.5) * 0.004, z: (Math.random() - 0.5) * 0.003 };
       mesh.userData.seed = Math.random() * Math.PI * 2;
       mesh.userData.baseY = mesh.position.y;
+      mesh.userData.home = mesh.position.clone();
       scene.add(mesh); shapes.push(mesh);
     }
 
@@ -946,10 +947,14 @@ document.addEventListener('DOMContentLoaded', function() {
     window.addEventListener('load', measure);
 
     const mo = { x: 0, y: 0 }, moT = { x: 0, y: 0 };
+    const pointerNDC = new THREE.Vector2(999, 999);
     window.addEventListener('pointermove', (e) => {
       moT.x = e.clientX / window.innerWidth - 0.5;
       moT.y = e.clientY / window.innerHeight - 0.5;
+      pointerNDC.x = (e.clientX / window.innerWidth) * 2 - 1;
+      pointerNDC.y = -(e.clientY / window.innerHeight) * 2 + 1;
     }, { passive: true });
+    window.addEventListener('pointerleave', () => pointerNDC.set(999, 999), { passive: true });
 
     window.addEventListener('resize', () => {
       camera.aspect = window.innerWidth / window.innerHeight;
@@ -965,6 +970,11 @@ document.addEventListener('DOMContentLoaded', function() {
     const tP = new THREE.Vector3();
     const tL = new THREE.Vector3();
     const clock = new THREE.Clock();
+    const raycaster = new THREE.Raycaster();
+    const _rest = new THREE.Vector3();
+    const _closest = new THREE.Vector3();
+    const _away = new THREE.Vector3();
+    const _toP = new THREE.Vector3();
 
     function tick() {
       const t = clock.getElapsedTime();
@@ -993,11 +1003,31 @@ document.addEventListener('DOMContentLoaded', function() {
       camera.lookAt(camLook);
 
       if (!reduce) {
+        // Cursor-reactive shapes: each shape rests at its home (with a gentle float),
+        // but is pushed away from the pointer ray so the empty space scatters as you
+        // move through it, then springs back. Makes the inter-section gaps interactive.
+        raycaster.setFromCamera(pointerNDC, camera);
+        const ray = raycaster.ray;
         for (const s of shapes) {
+          const h = s.userData.home;
+          _rest.set(h.x, h.y + Math.sin(t * 0.5 + s.userData.seed) * 0.4, h.z);
+          _toP.copy(_rest).sub(ray.origin);
+          const proj = _toP.dot(ray.direction);
+          if (proj > 0) {
+            _closest.copy(ray.origin).addScaledVector(ray.direction, proj);
+            const dist = _rest.distanceTo(_closest);
+            const R = 11;
+            if (dist < R) {
+              _away.copy(_rest).sub(_closest);
+              if (_away.lengthSq() < 1e-4) _away.set(Math.random() - 0.5, Math.random() - 0.5, 0.3);
+              _away.normalize();
+              _rest.addScaledVector(_away, (1 - dist / R) * 7);
+            }
+          }
+          s.position.lerp(_rest, 0.09);
           s.rotation.x += s.userData.rot.x;
           s.rotation.y += s.userData.rot.y;
           s.rotation.z += s.userData.rot.z;
-          s.position.y = s.userData.baseY + Math.sin(t * 0.5 + s.userData.seed) * 0.4;
         }
         dust.rotation.y = t * 0.01;
       }
