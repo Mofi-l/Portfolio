@@ -429,9 +429,11 @@
     <div class="section-line"></div>
   </div>
 
-  <div class="projects-container">
+  <div class="projects-stage">
+    <button class="ring-nav ring-prev" type="button" aria-label="Previous project"><i class="fas fa-chevron-left"></i></button>
+    <div class="projects-ring">
     <!-- Project 1: Vireon Operations Platform -->
-    <div class="project-card" data-aos="zoom-in">
+    <div class="project-card">
       <div class="project-header">
         <i class="fas fa-layer-group"></i>
         <h3>Vireon — Operations Platform</h3>
@@ -452,7 +454,7 @@
     </div>
 
     <!-- Project 2: In-App AI Assistant -->
-    <div class="project-card" data-aos="zoom-in" data-aos-delay="100">
+    <div class="project-card">
       <div class="project-header">
         <i class="fas fa-robot"></i>
         <h3>In-App AI Assistant</h3>
@@ -473,7 +475,7 @@
     </div>
 
     <!-- Project 3: SOP Optimization -->
-    <div class="project-card" data-aos="zoom-in" data-aos-delay="100">
+    <div class="project-card">
       <div class="project-header">
         <i class="fas fa-tasks"></i>
         <h3>SOP Optimization</h3>
@@ -494,7 +496,7 @@
     </div>
 
     <!-- Project 3: Duplicate Reimbursement Resolution -->
-    <div class="project-card" data-aos="zoom-in" data-aos-delay="200">
+    <div class="project-card">
       <div class="project-header">
         <i class="fas fa-money-bill-wave"></i>
         <h3>Duplicate Reimbursement Resolution</h3>
@@ -515,7 +517,7 @@
     </div>
 
     <!-- Project 4: TTR Reduction Project -->
-    <div class="project-card" data-aos="zoom-in" data-aos-delay="300">
+    <div class="project-card">
       <div class="project-header">
         <i class="fas fa-hourglass-half"></i>
         <h3>TTR Reduction Project</h3>
@@ -536,7 +538,7 @@
     </div>
 
     <!-- Project 5: CRS Annotation Program -->
-    <div class="project-card" data-aos="zoom-in" data-aos-delay="400">
+    <div class="project-card">
       <div class="project-header">
         <i class="fas fa-clipboard-check"></i>
         <h3>CRS Annotation Program</h3>
@@ -557,7 +559,7 @@
     </div>
 
     <!-- Project 6: Buddy Form Program -->
-    <div class="project-card" data-aos="zoom-in" data-aos-delay="500">
+    <div class="project-card">
       <div class="project-header">
         <i class="fas fa-users"></i>
         <h3>Buddy Form Program</h3>
@@ -576,7 +578,10 @@
         </div>
       </div>
     </div>
-  </div>
+    </div><!-- /.projects-ring -->
+    <button class="ring-nav ring-next" type="button" aria-label="Next project"><i class="fas fa-chevron-right"></i></button>
+    <div class="ring-dots" role="tablist" aria-label="Choose a project"></div>
+  </div><!-- /.projects-stage -->
 </section>
 
 
@@ -1102,6 +1107,125 @@ document.addEventListener('DOMContentLoaded', function() {
     window.addEventListener('resize', layout);
     window.addEventListener('load', layout);
     layout();
+  })();
+</script>
+<script>
+  // Key Projects: rotating 3D carousel. Cards sit on a cylinder; the ring spins so one
+  // face is front-and-centre (sharp, interactive) while the others angle back (dimmed).
+  // Arrows, dots, drag-to-spin, arrow keys, and a gentle auto-rotate drive it. On mobile
+  // (<=992px) CSS turns the ring into a plain horizontal swipe row and this stays inert.
+  (function () {
+    const stage = document.querySelector('#projects .projects-stage');
+    const ring = stage && stage.querySelector('.projects-ring');
+    if (!ring) return;
+    const cards = Array.from(ring.querySelectorAll('.project-card'));
+    const n = cards.length;
+    if (!n) return;
+    const prevBtn = stage.querySelector('.ring-prev');
+    const nextBtn = stage.querySelector('.ring-next');
+    const dotsWrap = stage.querySelector('.ring-dots');
+    const step = 360 / n;
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const isDesktop = () => window.matchMedia('(min-width: 993px)').matches;
+    let current = 0;
+    let autoTimer = null;
+    let inView = false;
+
+    function computeRadius() {
+      const w = cards[0].getBoundingClientRect().width || 380;
+      const r = Math.round((w / 2) / Math.tan(Math.PI / n) * 1.2);
+      return Math.max(360, r);
+    }
+
+    const dots = [];
+    if (dotsWrap) {
+      cards.forEach((c, i) => {
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.setAttribute('role', 'tab');
+        b.setAttribute('aria-label', 'Show project ' + (i + 1));
+        b.addEventListener('click', () => { goTo(i); restartAuto(); });
+        dotsWrap.appendChild(b);
+        dots.push(b);
+      });
+    }
+
+    function setVars() {
+      const r = computeRadius();
+      ring.style.setProperty('--step', step.toFixed(4) + 'deg');
+      ring.style.setProperty('--ring-r', r + 'px');
+      cards.forEach((c, i) => c.style.setProperty('--i', i));
+    }
+
+    function render() {
+      if (isDesktop()) {
+        ring.style.setProperty('--ring-rot', (-current * step).toFixed(4) + 'deg');
+      } else {
+        ring.style.removeProperty('--ring-rot');
+      }
+      cards.forEach((c, i) => c.classList.toggle('is-front', i === current));
+      dots.forEach((d, i) => d.classList.toggle('active', i === current));
+    }
+
+    function goTo(i) { current = ((i % n) + n) % n; render(); }
+    function nextCard() { goTo(current + 1); }
+    function prevCard() { goTo(current - 1); }
+
+    if (nextBtn) nextBtn.addEventListener('click', () => { nextCard(); restartAuto(); });
+    if (prevBtn) prevBtn.addEventListener('click', () => { prevCard(); restartAuto(); });
+
+    // Click a side card to bring it forward (ignored if the pointer was dragging).
+    cards.forEach((c, i) => {
+      c.addEventListener('click', () => {
+        if (Math.abs(moved) > 6) return;
+        if (isDesktop() && !c.classList.contains('is-front')) { goTo(i); restartAuto(); }
+      });
+    });
+
+    if ('IntersectionObserver' in window) {
+      const sec = document.getElementById('projects');
+      if (sec) new IntersectionObserver((e) => { inView = e[0].isIntersecting; }, { threshold: 0.3 }).observe(sec);
+    }
+    window.addEventListener('keydown', (ev) => {
+      if (!inView || !isDesktop()) return;
+      if (ev.key === 'ArrowRight') { nextCard(); restartAuto(); }
+      else if (ev.key === 'ArrowLeft') { prevCard(); restartAuto(); }
+    });
+
+    // Drag / swipe to spin the ring live, snapping to the nearest face on release.
+    let dragging = false, startX = 0, moved = 0;
+    stage.addEventListener('pointerdown', (e) => {
+      if (!isDesktop()) return;
+      dragging = true; startX = e.clientX; moved = 0; stopAuto();
+      ring.style.transition = 'none';
+    });
+    window.addEventListener('pointermove', (e) => {
+      if (!dragging) return;
+      moved = e.clientX - startX;
+      ring.style.setProperty('--ring-rot', (-current * step + moved * 0.25).toFixed(2) + 'deg');
+    });
+    window.addEventListener('pointerup', () => {
+      if (!dragging) return;
+      dragging = false;
+      ring.style.transition = '';
+      if (Math.abs(moved) > 60) { moved < 0 ? nextCard() : prevCard(); } else { render(); }
+      restartAuto();
+    });
+
+    function startAuto() {
+      if (reduce || !isDesktop()) return;
+      stopAuto();
+      autoTimer = setInterval(() => { if (inView) nextCard(); }, 4500);
+    }
+    function stopAuto() { if (autoTimer) { clearInterval(autoTimer); autoTimer = null; } }
+    function restartAuto() { startAuto(); }
+    stage.addEventListener('mouseenter', stopAuto);
+    stage.addEventListener('mouseleave', startAuto);
+
+    function init() { setVars(); render(); startAuto(); }
+    window.addEventListener('resize', () => { setVars(); render(); });
+    window.addEventListener('load', init);
+    init();
   })();
 </script>
 </body>

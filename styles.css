@@ -2764,3 +2764,168 @@ html[data-theme='light'] #bg-canvas { display: none; }
   #experience .exp-card { max-height: 72vh; }
   .exp-pin .achievement-grid .achievement-item:nth-child(n+3) { display: none !important; }
 }
+
+/*--------------------------------------------------*/
+/* Key Projects -> rotating 3D carousel (desktop). The ring spins one card to the front
+   while the rest angle back on a cylinder. Mobile (<=992px) falls back to a swipe row. */
+@media (min-width: 993px) {
+  #projects .projects-stage {
+    position: relative;
+    width: 100%;
+    max-width: 1180px;
+    height: 560px;
+    margin: 0 auto;
+    perspective: 1800px;
+    z-index: 1;
+  }
+  #projects .projects-ring {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 380px;
+    height: 460px;
+    margin: -230px 0 0 -190px;
+    transform-style: preserve-3d;
+    transform: translateZ(calc(var(--ring-r, 480px) * -1)) rotateY(var(--ring-rot, 0deg));
+    transition: transform 0.9s cubic-bezier(0.25, 0.1, 0.25, 1);
+    will-change: transform;
+  }
+  #projects .projects-ring .project-card {
+    position: absolute;
+    inset: 0;
+    width: 380px;
+    height: 460px;
+    margin: 0 !important;
+    padding: 2rem;
+    animation: none !important;        /* override the fadeInUp intro */
+    opacity: 1;
+    backface-visibility: hidden;
+    transform: rotateY(calc(var(--i, 0) * var(--step, 51.4286deg))) translateZ(var(--ring-r, 480px));
+    transition: opacity .6s ease, filter .6s ease, box-shadow .4s ease, border-color .4s ease;
+    cursor: pointer;
+  }
+  #projects .projects-ring .project-card:not(.is-front) {
+    opacity: 0.3;
+    filter: brightness(0.55) blur(1px);
+    pointer-events: none;
+  }
+  #projects .projects-ring .project-card.is-front {
+    opacity: 1;
+    filter: none;
+    cursor: default;
+    box-shadow: 0 30px 70px rgba(31, 111, 235, 0.3);
+    border-color: rgba(120, 115, 245, 0.55);
+  }
+  /* hover must not hijack the 3D transform that positions the card on the ring */
+  #projects .projects-ring .project-card:hover {
+    transform: rotateY(calc(var(--i, 0) * var(--step, 51.4286deg))) translateZ(var(--ring-r, 480px));
+  }
+  /* clamp the body copy so every face fits the fixed card height */
+  #projects .projects-ring .project-body p {
+    display: -webkit-box;
+    -webkit-line-clamp: 6;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 1.2rem;
+  }
+  #projects .projects-ring .project-header { margin-bottom: 1.2rem; }
+  #projects .projects-ring .project-header h3 { font-size: 1.25rem; }
+  #projects .projects-ring .project-header i { font-size: 1.6rem; padding: 0.7rem; }
+
+  /* navigation arrows */
+  #projects .ring-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 6;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    border: 1px solid rgba(120, 115, 245, 0.4);
+    background: rgba(13, 17, 23, 0.6);
+    backdrop-filter: blur(10px);
+    color: #cdd9ff;
+    font-size: 1.1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background .25s ease, color .25s ease, border-color .25s ease, transform .25s ease;
+  }
+  #projects .ring-nav:hover {
+    background: linear-gradient(135deg, #1f6feb, #7873f5);
+    color: #fff;
+    border-color: transparent;
+  }
+  #projects .ring-prev { left: 1%; }
+  #projects .ring-next { right: 1%; }
+  #projects .ring-prev:hover { transform: translateY(-50%) scale(1.08); }
+  #projects .ring-next:hover { transform: translateY(-50%) scale(1.08); }
+
+  /* dots */
+  #projects .ring-dots {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -4px;
+    display: flex;
+    justify-content: center;
+    gap: 0.6rem;
+    z-index: 6;
+  }
+  #projects .ring-dots button {
+    width: 9px;
+    height: 9px;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background: rgba(205, 217, 255, 0.3);
+    cursor: pointer;
+    transition: transform .3s ease, background .3s ease;
+  }
+  #projects .ring-dots button:hover { background: rgba(205, 217, 255, 0.6); }
+  #projects .ring-dots button.active {
+    background: linear-gradient(135deg, #1f6feb, #7873f5);
+    transform: scale(1.5);
+  }
+}
+
+/* Mobile / tablet: no 3D ring — a plain horizontal swipe row of cards. */
+@media (max-width: 992px) {
+  #projects .ring-nav { display: none; }
+  #projects .projects-ring {
+    display: flex;
+    gap: 1.5rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    padding: 0.5rem 0.25rem 1.5rem;
+    transform: none !important;
+  }
+  #projects .projects-ring .project-card {
+    position: static;
+    flex: 0 0 min(320px, 82vw);
+    scroll-snap-align: center;
+    transform: none !important;
+    opacity: 1 !important;
+    filter: none !important;
+    height: auto;
+  }
+  #projects .ring-dots {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 0.75rem;
+  }
+  #projects .ring-dots button {
+    width: 8px;
+    height: 8px;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background: rgba(120, 115, 245, 0.4);
+  }
+  #projects .ring-dots button.active { background: #7873f5; }
+}
