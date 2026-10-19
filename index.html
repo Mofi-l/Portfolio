@@ -137,8 +137,8 @@
     </section>
 
 <!-- Experience Section -->
-<section id="experience" class="experience">
-  <div class="experience-container">
+<section id="experience" class="experience exp-pin">
+  <div class="exp-sticky">
     <div class="section-header">
       <h2>Experience Journey</h2>
       <div class="section-line"></div>
@@ -146,7 +146,7 @@
 
     <div class="experience-cards">
       <!-- Current Role -->
-      <div class="exp-card" data-aos="fade-up">
+      <div class="exp-card">
         <div class="exp-card-header">
           <div class="exp-year">Present</div>
           <div class="company-logo">
@@ -211,7 +211,7 @@
       </div>
 
       <!-- Previous Role - CRS Mentor -->
-      <div class="exp-card" data-aos="fade-up" data-aos-delay="100">
+      <div class="exp-card">
         <div class="exp-card-header">
           <div class="exp-year">2021-24</div>
           <div class="company-logo">
@@ -273,7 +273,7 @@
       </div>
 
       <!-- Previous Role - CS Associate -->
-      <div class="exp-card" data-aos="fade-up" data-aos-delay="200">
+      <div class="exp-card">
         <div class="exp-card-header">
           <div class="exp-year">2017-20</div>
           <div class="company-logo">
@@ -944,6 +944,7 @@ document.addEventListener('DOMContentLoaded', function() {
       }).filter((v) => v !== null);
     };
     measure();
+    window.__sceneMeasure = measure;
     window.addEventListener('load', measure);
 
     const mo = { x: 0, y: 0 }, moT = { x: 0, y: 0 };
@@ -1057,6 +1058,50 @@ document.addEventListener('DOMContentLoaded', function() {
       const s = document.getElementById(id);
       if (s) obs.observe(s);
     });
+  })();
+</script>
+<script>
+  // Experience: pinned horizontal scroll. The section is made tall; while it is pinned,
+  // vertical scroll drives the role cards sideways (years side by side). Once the last
+  // card is reached, the pin releases and the page continues to the next section.
+  (function () {
+    const pin = document.querySelector('.exp-pin');
+    const track = pin && pin.querySelector('.experience-cards');
+    const orbit = document.querySelector('.orbit-nav');
+    if (!pin || !track) return;
+    const isDesktop = () => window.matchMedia('(min-width: 993px)').matches;
+
+    function layout() {
+      if (!isDesktop()) {
+        pin.style.height = '';
+        track.style.transform = '';
+        if (orbit) { orbit.style.opacity = ''; orbit.style.pointerEvents = ''; }
+        return;
+      }
+      const maxX = Math.max(0, track.scrollWidth - window.innerWidth);
+      pin.style.height = (window.innerHeight + maxX) + 'px';
+      if (typeof window.__sceneMeasure === 'function') window.__sceneMeasure();
+      update();
+    }
+    function update() {
+      if (!isDesktop()) return;
+      const rect = pin.getBoundingClientRect();
+      const total = pin.offsetHeight - window.innerHeight;
+      const scrolled = Math.min(Math.max(-rect.top, 0), total);
+      const progress = total > 0 ? scrolled / total : 0;
+      const maxX = Math.max(0, track.scrollWidth - window.innerWidth);
+      track.style.transform = 'translate3d(' + (-progress * maxX).toFixed(2) + 'px,0,0)';
+      const pinned = rect.top <= 1 && rect.bottom >= window.innerHeight;
+      if (orbit) {
+        orbit.style.transition = 'opacity .35s ease';
+        orbit.style.opacity = pinned ? '0' : '';
+        orbit.style.pointerEvents = pinned ? 'none' : '';
+      }
+    }
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', layout);
+    window.addEventListener('load', layout);
+    layout();
   })();
 </script>
 </body>

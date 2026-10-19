@@ -2667,3 +2667,100 @@ html[data-theme='light'] #bg-canvas { display: none; }
 
 /* Tighten header-to-content spacing to cut dead space */
 .section-header { margin-bottom: 2.5rem !important; }
+
+/*--------------------------------------------------*/
+/* Experience -> pinned horizontal scroll (years side by side), then release to the
+   next section. Desktop only; mobile keeps a normal vertical stack. */
+#experience .experience-cards::before { display: none !important; } /* drop timeline spine */
+#experience .exp-card::after { display: none !important; }          /* drop timeline dots  */
+
+@media (min-width: 993px) {
+  .exp-pin { padding: 0 !important; overflow: visible !important; } /* height set in JS; overflow:visible so sticky pins to the viewport, not the section box */
+  .exp-pin .exp-sticky {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    max-width: none;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: hidden;
+    padding: 1.5rem 0;
+  }
+  .exp-pin .section-header { margin-bottom: 1.25rem !important; }
+  .exp-pin .experience-cards {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 2.5rem;
+    width: max-content;
+    margin: 0;
+    padding: 0 8vw;
+    will-change: transform;
+  }
+  #experience .exp-card {
+    width: min(760px, 86vw);
+    max-height: 82vh;
+    margin: 0 !important;
+    overflow: hidden;
+  }
+  /* keep each card compact enough to fit the viewport height */
+  .exp-pin .additional-achievements { display: none; }
+  .exp-pin .key-achievements { margin: 1.25rem 0; }
+  .exp-pin .achievement-item { padding: 1rem; }
+  .exp-pin .achievement-item p { font-size: 0.9rem; line-height: 1.5; }
+  .exp-pin .exp-card-content h3 { font-size: 1.5rem; }
+  .exp-pin .company-location { margin-bottom: 1.25rem; }
+}
+
+@media (max-width: 992px) {
+  #experience .exp-card { width: 100%; }
+}
+
+/*--------------------------------------------------*/
+/* Fit each experience card within the pinned viewport so the horizontal scroll shows
+   whole cards (not clipped). Fixed height, compact 2-column highlights, awards pinned
+   to the bottom. Mobile (stacked) is unaffected. */
+@media (min-width: 993px) {
+  #experience .exp-card {
+    width: min(620px, 86vw);
+    height: 78vh;
+    max-height: 78vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  .exp-pin .exp-card-content {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+  }
+  .exp-pin .key-achievements { flex: 1 1 auto; min-height: 0; overflow: hidden; margin: 1rem 0; }
+  .exp-pin .achievement-grid { grid-template-columns: 1fr 1fr; gap: 0.9rem; }
+  .exp-pin .achievement-grid .achievement-item:nth-child(n+5) { display: none; }
+  .exp-pin .achievement-item { padding: 0.85rem; }
+  .exp-pin .achievement-item p { font-size: 0.84rem; line-height: 1.45; }
+  .exp-pin .exp-awards { margin-top: auto; }
+}
+
+/*--------------------------------------------------*/
+/* Make the pinned cards uniform and non-clipping: equal height (stretch), natural
+   content, a consistent 3 top highlights, awards bottom-aligned. */
+@media (min-width: 993px) {
+  .exp-pin .experience-cards { align-items: stretch; }
+  #experience .exp-card { height: auto; max-height: 86vh; }
+  .exp-pin .exp-card-content { height: auto; }
+  .exp-pin .key-achievements { flex: 0 0 auto; overflow: visible; }
+  .exp-pin .achievement-grid .achievement-item:nth-child(n+4) { display: none; } /* show top 3 */
+  .exp-pin .exp-awards { margin-top: auto; }
+}
+
+/*--------------------------------------------------*/
+/* Ensure the whole card (year label included) fits the pinned viewport: show the top
+   2 highlights and cap height so nothing clips at the top. */
+@media (min-width: 993px) {
+  #experience .exp-card { max-height: 72vh; }
+  .exp-pin .achievement-grid .achievement-item:nth-child(n+3) { display: none !important; }
+}
